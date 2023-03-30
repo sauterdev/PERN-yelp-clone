@@ -20,3 +20,11 @@ CREATE TABLE restaurants (
 );
 
 INSERT INTO restaurants (id, name, location, price_range) VALUES (123, 'mcdonalds', 'new york', 3);
+
+CREATE TABLE reviews(
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    restaurant_id  BIGINT NOT NULL REFERENCES restaurants(id),
+    name VARCHAR(255) NOT NULL,
+    review_content TEXT NOT NULL,
+    rating INT check(rating >= 1 AND rating <= 5) NOT NULL
+);

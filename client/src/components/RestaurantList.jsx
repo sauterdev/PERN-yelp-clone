@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import RestaurantFinder from "../apis/RestaurantFinder";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { RestaurantsContext } from "../context/RestaurantsContext";
 
 const RestaurantList = () => {
   const { restaurants, setRestaurants } = useContext(RestaurantsContext);
-  let navigate = useNavigate()
+  let navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -18,7 +18,8 @@ const RestaurantList = () => {
     fetchData();
   }, [setRestaurants]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (e, id) => {
+    e.stopPropagation();
     try {
       const response = await RestaurantFinder.delete(`/${id}`);
       setRestaurants(
@@ -31,9 +32,14 @@ const RestaurantList = () => {
     }
   };
 
-  const handleUpdate = (id) => {
-    navigate(`/restaurants/${id}/update`)
-  }
+  const handleUpdate = (e, id) => {
+    e.stopPropagation();
+    navigate(`/restaurants/${id}/update`);
+  };
+
+  const handleRestaurantSelect = (id) => {
+    navigate(`/restaurants/${id}`)
+  } 
 
   return (
     <div className="list-group">
@@ -52,19 +58,27 @@ const RestaurantList = () => {
           {restaurants &&
             restaurants.map((restaurant) => {
               return (
-                <tr key={restaurant.id}>
+                <tr
+                  //event handler to redirect to restaurant info page
+                  onClick={() => handleRestaurantSelect(restaurant.id)}
+                  key={restaurant.id}
+                >
                   <td>{restaurant.name}</td>
                   <td>{restaurant.location}</td>
                   <td>{"$".repeat(restaurant.price_range)}</td>
                   <td>Reviews</td>
                   <td>
                     <button
-                    onClick={() => handleUpdate(restaurant.id)}
-                     className="btn btn-warning">Update</button>
+                    //event handler to redirect to update page
+                      onClick={(e) => handleUpdate(e, restaurant.id)}
+                      className="btn btn-warning"
+                    >
+                      Update
+                    </button>
                   </td>
                   <td>
                     <button
-                      onClick={() => handleDelete(restaurant.id)}
+                      onClick={(e) => handleDelete(e, restaurant.id)}
                       className="btn btn-danger"
                     >
                       Delete

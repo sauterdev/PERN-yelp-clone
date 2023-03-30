@@ -12,10 +12,15 @@ const UpdateRestaurant = (props) => {
   //fetches data to load current restuarant info into the input forms
   useEffect(() => {
     const fetchData = async () => {
-      const response = await RestaurantFinder.get(`/${id}`);
-      setName(response.data.data.restaurants.name);
-      setLocation(response.data.data.restaurants.location);
-      setPriceRange(response.data.data.restaurants.price_range);
+        try{
+            const response = await RestaurantFinder.get(`/${id}`);
+            setName(response.data.data.restaurants.name);
+            setLocation(response.data.data.restaurants.location);
+            setPriceRange(response.data.data.restaurants.price_range);
+        } catch(err) {
+            console.error(err)
+        }
+
     };
     fetchData();
   }, []);
@@ -28,7 +33,6 @@ const UpdateRestaurant = (props) => {
         price_range: priceRange
     });
     navigate("/");
-    console.log(response);
   }
 
   return (
