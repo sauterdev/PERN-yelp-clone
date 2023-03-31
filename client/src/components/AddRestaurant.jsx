@@ -48,7 +48,7 @@ const AddRestaurant = () => {
             <select
               value={priceRange}
               onChange={(e) => setPriceRange(e.target.value)} //state update for price input field
-              className="form-control custom-select my-1 mr-sm-2"
+              className="form-control custom-select "
             >
               <option disabled>Price Range</option>
               <option value="1">$</option>

@@ -15,7 +15,6 @@ const RestaurantDetails = () => {
     const fetchData = async () => {
       try {
         const response = await RestaurantFinder.get(`/${id}`);
-        console.log(response.data.data);
         setSelectedRestaurant(response.data.data);
       } catch (err) {
         console.error(err);
@@ -25,16 +24,28 @@ const RestaurantDetails = () => {
   }, []);
 
   return (
-    <div>{selectedRestaurant && (
+    <div>
+      {selectedRestaurant && (
         <>
-        <div className="mt-3">
-            <Reviews reviews={selectedRestaurant.reviews}/>
-            <AddReview/>
-        </div>
+          <h1 className="text-center display-1">
+            {selectedRestaurant.restaurants.name}
+          </h1>
+          <div className="text-center">
+            <StarRating
+              rating={selectedRestaurant.restaurants.average_rating}
+            />
+            <span className="text-warning ml-1">
+              {selectedRestaurant.restaurants.count ? `(${selectedRestaurant.restaurants.count})` : "(0)"}
+            </span>
+          </div>
+          <div className="mt-3">
+            <Reviews reviews={selectedRestaurant.reviews} />
+            <AddReview />
+          </div>
         </>
       )}
-      </div>
-  )}
-  
+    </div>
+  );
+};
 
 export default RestaurantDetails;

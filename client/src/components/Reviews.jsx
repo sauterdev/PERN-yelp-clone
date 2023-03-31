@@ -5,7 +5,7 @@ const Reviews = ({reviews}) => {
   return (
     <div className="row row-cols-3 gap-3">
       {reviews.map((review) => {
-        //console.log(review)
+        // console.log(review)
         return (
           <div key={review.id}
             className="card text-white bg-primary mb-2 mr-4"
